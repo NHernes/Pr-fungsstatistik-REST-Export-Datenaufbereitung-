@@ -638,31 +638,6 @@ def generierung_datenbank(datengrundlage_lizenzen_tagesaktuell):
         analyse_dict.update({"MISC":0})
         analyse_dict_aktuell=analyse_dict
 
-        """
-        for index, row in detailtable_fächer.iterrows():
-            fachbereich=row["Fachbereich"]
-            name=row["Fach"]
-
-            for key,value in analyse_dict_aktuell.items():
-                if fachbereich == key:
-                    try:
-                        value=value+int(row[semester])
-                    except:
-                        pass
-                    analyse_dict_aktuell[key]=value
-        """
-        """
-        for index, row in detailtable_fächer.iterrows():
-            fachbereich=row["Fachbereich"]
-
-            for key,value in analyse_dict_aktuell.items():
-                if fachbereich == key:
-                    try:
-                        value=value+int(row[semester])
-                    except:
-                        pass
-                    analyse_dict_aktuell[key]=value
-        """
         for key, value in analyse_dict_aktuell.items():
             try:
                 dftest=detailtable_fächer.loc[detailtable_fächer['Fachbereich'] == key, semester]
@@ -729,17 +704,12 @@ def include_all():
     
     with open(f'{cwd}/repository/{datetime.datetime.today().date().strftime("%Y-%m-%d")}_prüfungsdaten_roh_vollständig.json', 'w') as f: #
         json.dump(datengrundlage_lizenzen_tagesaktuell, f)  #data is dumped into file 
-    
-    """
-    with open("prüfungsdaten_roh_vollständig.json") as f:
-        datengrundlage_lizenzen_tagesaktuell=json.load(f)
-    """
-
+        
     generierung_datenbank(datengrundlage_lizenzen_tagesaktuell)
     
     upload_wiki()
 
-"""
+
 schedule.every().day.at("00:00").do(include_all)
 
 while True:
@@ -747,5 +717,4 @@ while True:
     schedule.run_pending()
     
     time.sleep(1)
-"""
-include_all()
+
